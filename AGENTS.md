@@ -1,12 +1,17 @@
-# 项目上下文
+# 996传奇策划生成器
 
-### 版本技术栈
+## 项目概述
+
+这是一个基于AI的传奇游戏创意策划生成工具，支持无限生成游戏内容。
+
+## 版本技术栈
 
 - **Framework**: Next.js 16 (App Router)
 - **Core**: React 19
 - **Language**: TypeScript 5
 - **UI 组件**: shadcn/ui (基于 Radix UI)
 - **Styling**: Tailwind CSS 4
+- **AI能力**: coze-coding-dev-sdk (豆包大模型)
 
 ## 目录结构
 
@@ -19,15 +24,71 @@
 │   └── start.sh            # 生产环境启动脚本
 ├── src/
 │   ├── app/                # 页面路由与布局
+│   │   ├── api/            # API接口
+│   │   │   └── generate/   # AI生成接口
+│   │   ├── layout.tsx      # 根布局
+│   │   └── page.tsx        # 首页
+│   ├── components/         # 业务组件
+│   │   ├── game-config-panel.tsx  # 游戏配置面板
+│   │   └── result-display.tsx    # 结果展示组件
 │   ├── components/ui/      # Shadcn UI 组件库
 │   ├── hooks/              # 自定义 Hooks
 │   ├── lib/                # 工具库
 │   │   └── utils.ts        # 通用工具函数 (cn)
+│   ├── types/               # 类型定义
+│   │   └── game-planner.ts # 游戏策划类型
 │   └── server.ts           # 自定义服务端入口
 ├── next.config.ts          # Next.js 配置
 ├── package.json            # 项目依赖管理
 └── tsconfig.json           # TypeScript 配置
 ```
+
+## 核心功能
+
+### 1. 游戏背景配置
+- 游戏名称
+- 题材类型（玄幻修真/西方魔幻/武侠江湖/科幻未来/暗黑哥特）
+- 故事背景
+- 核心主题
+
+### 2. 职业系统配置
+- 单职业模式
+- 三职业模式（战士/法师/道士）
+
+### 3. 玩法系统配置
+- 经典战法道、打金系统、攻沙战、自由交易
+- BOSS战、PVP竞技、行会系统、坐骑系统、宠物系统
+
+### 4. AI创意生成器
+| 类型 | 说明 |
+|------|------|
+| 地图设计 | 生成副本地图配置 |
+| NPC设计 | 生成NPC角色设定 |
+| 装备配置 | 生成装备属性数据 |
+| 道具设计 | 生成特色道具 |
+| BOSS设计 | 生成BOSS技能掉落 |
+| 掉落配置 | 生成掉落概率表 |
+| 玩法UI | 生成玩法界面设计 |
+
+## API接口
+
+### POST /api/generate
+生成创意玩法内容
+
+**请求体：**
+```json
+{
+  "gameConfig": {
+    "background": { "name": "", "genre": "", "story": "", "theme": "" },
+    "classConfig": { "type": "single" | "tripartite" },
+    "features": { "features": [], "customFeatures": "" }
+  },
+  "generatorType": "map" | "npc" | "equipment" | "props" | "boss" | "drop" | "ui",
+  "keywords": "可选关键词"
+}
+```
+
+**响应：** 流式SSE输出JSON格式的策划内容
 
 - 项目文件（如 app 目录、pages 目录、components 等）默认初始化到 `src/` 目录下。
 
